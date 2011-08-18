@@ -1,0 +1,660 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fcharset0 Arial;}}
+{\*\generator Msftedit 5.41.21.2509;}\viewkind4\uc1\pard\f0\fs20\par
+<!-- THREE STEPS TO INSTALL JAVASCRIPT Chess WITH CPU OPPO:\par
+\par
+\par
+\par
+  1.  Copy the coding into the HEAD of your HTML document\par
+\par
+  2.  Add the onLoad event handler into the BODY tag\par
+\par
+  3.  Put the last coding into the BODY of your HTML document  -->\par
+\par
+\par
+\par
+<!-- STEP ONE: Paste this code into the HEAD of your HTML document  -->\par
+\par
+\par
+\par
+<HEAD>\par
+\par
+\par
+\par
+<!-- This script and many more are available free online at -->\par
+\par
+<!-- The JavaScript Source!! http://javascript.internet.com -->\par
+\par
+<!-- Original:  Neil pearce (neil@neilpearce.com ) -->\par
+\par
+<!-- Web Site:  http://www.neilpearce.co.uk -->\par
+\par
+\par
+\par
+<script type="text/javascript" language="JavaScript"><!--\par
+\par
+function gc(n)\{\par
+\tab dc=document.cookie;\par
+\tab p=n+"=";\par
+\tab b=dc.indexOf("; "+p);\par
+\tab if(b==-1)\{\par
+\tab\tab b=dc.indexOf(p);\par
+\tab\tab if(b)return 0;\par
+\tab\}else b+=2;\par
+\tab e=dc.indexOf(";",b);\par
+\tab if(e==-1)e=dc.length;\par
+\tab return unescape(dc.substring(b+p.length,e));\par
+\}\par
+\par
+if((navigator.appName!="Netscape")||(parseInt(navigator.appVersion)>4))\{\par
+\tab x=gc("css");\par
+\tab if((!x)||(x!="off"))document.write("<link rel=\\"stylesheet\\" type=\\"text/css\\" href=\\"../default.css\\">");\par
+\}\par
+\par
+pimg=new Array();\par
+i=new Array("b", "bb1", "bb2", "bb3", "bb4", "bb5", "bb6", "bw1", "bw2", "bw3", "bw4", "bw5", "bw6", "l", "r", "sbb1", "sbb2", "sbb3",\par
+\tab "sbb4", "sbb5", "sbb6", "sbw1", "sbw2", "sbw3", "sbw4", "sbw5", "sbw6", "swb1", "swb2", "swb3", "swb4", "swb5", "swb6", "sww1", \par
+\tab "sww2", "sww3", "sww4", "sww5", "sww6", "t", "u", "w", "wb1", "wb2", "wb3", "wb4", "wb5", "wb6", "ww1", "ww2", "ww3", "ww4", \par
+\tab "ww5", "ww6");\par
+for(j=0;j<i.length;++j)\{\par
+\tab pimg[j]=new Image();\par
+\tab pimg[j].src=""+i[j]+".png";\par
+\}\par
+\par
+// -->\par
+\par
+</script>\par
+\par
+</HEAD>\par
+\par
+\par
+\par
+<!-- STEP TWO: Insert the onLoad event handler into your BODY tag  -->\par
+\par
+\par
+\par
+<BODY onLoad="SetupBoard()">\par
+\par
+\par
+\par
+<!-- STEP THREE: Copy this code into the BODY of your HTML document  -->\par
+\par
+\par
+\par
+\par
+<script type="text/javascript"><!--\par
+\par
+N=1;\par
+K="";\par
+F=px=py=0;\par
+\par
+function sm(i)\{\par
+\tab if(N>120)return;\par
+\tab var j="abcdefgh";\par
+\tab if(N&1)\{\par
+\tab\tab if(N<19)K+=" ";\par
+\tab\tab K+=(1+N>>1)+". ";\par
+\tab\}else\par
+\tab\tab K+="   ";\par
+\tab if(i.f==3)\par
+\tab\tab K+="o-o  ";\par
+\tab else if(i.f==5)\par
+\tab\tab K+="o-o-o";\par
+\tab else \par
+\tab\tab K+=j.charAt(i.x)+(8-i.y)+" "+j.charAt(i.X)+(8-i.Y);\par
+\tab\par
+\tab if(++N&1)\par
+\tab\tab K+="\\n";document.getElementById("m"+Math.floor((N-2)/20)).innerHTML="<pre>"+K+"</pre>";\par
+\tab if(!((N-1)%20))\par
+\tab\tab K="";\par
+\}\par
+\par
+function un(u,b) \{\par
+\tab for(var i=u.x.length-1;i>=0;--i)\par
+\tab\tab PlacePiece(b,u.x[i],u.y[i],u.p[i]);\par
+\}\par
+\par
+function AddMove(u,b,x,y)\{\par
+\tab u.x.push(x);\par
+\tab u.y.push(y);\par
+\tab u.p.push(b[x+y*8]);\par
+\}\par
+\par
+function st(x)\{\par
+\tab document.getElementById("i").innerHTML=x;\par
+\}\par
+\par
+function P(x,y,X,Y,f)\{\par
+\tab this.x=x;\par
+\tab this.y=y;\par
+\tab this.X=X;\par
+\tab this.Y=Y;\par
+\tab this.f=f;\par
+\}\par
+\par
+function CreateEmptyMoveList()\{\par
+\tab this.x=[];\par
+\tab this.y=[];\par
+\tab this.p=[];\par
+\}\par
+\par
+function IsEmpty(b,x,y)\{\par
+\tab return !b[x+y*8];\par
+\}\par
+\par
+function GetPieceType(b,x,y)\{\par
+\tab return b[x+y*8]&7;\par
+\}\par
+\par
+function GetColorBits(b,x,y)\{\par
+\tab return b[x+y*8]&192;\par
+\}\par
+\par
+function CheckSpcifiedBits(b,x,y,c)\{\par
+\tab var i=b[x+y*8];\par
+\tab return i&&(i&c);\par
+\}\par
+\par
+function CheckOppositeBits(b,x,y,c)\{\par
+\tab var i=b[x+y*8];\par
+\tab return i&&!(i&c);\par
+\}\par
+\par
+function CheckPieceAnd32(b,x,y)\{//mo\par
+\tab var i=b[x+y*8];\par
+\tab return i&&(i&32);\par
+\}\par
+\par
+function CheckPieceAnd16(b,x,y)\{//la\par
+\tab var i=b[x+y*8];\par
+\tab return i&&(i&16);\par
+\}\par
+\par
+function IsInBounds(x,y)\{\par
+\tab return x>=0&&x<8&&y>=0&&y<8;\par
+\}\par
+\par
+function di(c)\{\par
+\tab return c==64?-1:1;\par
+\}\par
+\par
+function PlacePiece(b,x,y,p)\{\par
+\tab b[x+y*8]=p;\par
+\tab return b;\par
+\}\par
+\par
+function GetMoveList(b,x,y,i,j,c,l)\{\par
+\tab var X=x;\par
+\tab var Y=y;\par
+\tab while(IsInBounds(X+=i,Y+=j)&&IsEmpty(b,X,Y))\par
+\tab\tab l.push(new P(x,y,X,Y,0));\par
+\tab if(IsInBounds(X,Y)&&CheckOppositeBits(b,X,Y,c))\par
+\tab\tab l.push(new P(x,y,X,Y,0));\par
+\tab return l;\par
+\}\par
+\par
+function GetHorzVertMoves(b,x,y,c,l)\{\par
+\tab GetMoveList(b,x,y,1,0,c,GetMoveList(b,x,y,-1,0,c,GetMoveList(b,x,y,0,1,c,GetMoveList(b,x,y,0,-1,c,l))));\par
+\}\par
+\par
+function GetDiagMoves(b,x,y,c,l)\{\par
+\tab GetMoveList(b,x,y,1,1,c,GetMoveList(b,x,y,-1,-1,c,GetMoveList(b,x,y,1,-1,c,GetMoveList(b,x,y,-1,1,c,l))));\par
+\}\par
+\par
+function ki(b,x,y,c,l)\{\par
+\tab for(var i=-1;i<2;++i)\par
+\tab\tab for(var j=-1;j<2;++j) \{\par
+\tab\tab\tab var X=x+i;\par
+\tab\tab\tab var Y=y+j;\par
+\tab\tab\tab if((X||Y)&&IsInBounds(X,Y)&&!CheckSpcifiedBits(b,X,Y,c))\par
+\tab\tab\tab\tab l.push(new P(x,y,X,Y,0));\par
+\tab\tab\}\par
+\tab\tab if(!CheckPieceAnd32(b,x,y))\par
+\tab\tab\tab if(IsEmpty(b,5,y)&&IsEmpty(b,6,y)&&!IsEmpty(b,7,y)&&!CheckPieceAnd32(b,7,y))\{\par
+\tab\tab\tab\tab var u=new CreateEmptyMoveList();\par
+\tab\tab\tab\tab AddMove(u,b,x,y);\par
+\tab\tab\tab\tab PlacePiece(b,x,y,0);\par
+\tab\tab\tab\tab var i=fi(b,c^192);\par
+\tab\tab\tab\tab var j=0;\par
+\tab\tab\tab\tab var X=-1;\par
+\tab\tab\tab\tab while(!j&&++X!=i.length)\par
+\tab\tab\tab\tab\tab j=i[X].Y==y&&i[X].X==5;\par
+\tab\tab\tab\tab if(!j)\par
+\tab\tab\tab\tab\tab l.push(new P(x,y,6,y,3));\par
+\tab\tab\tab\tab un(u,b);\par
+\tab\tab\tab\}else if(IsEmpty(b,3,y)&&IsEmpty(b,2,y)&&IsEmpty(b,1,y)&&!IsEmpty(b,0,y)&&!CheckPieceAnd32(b,0,y))\{\par
+\tab\tab\tab\tab var u=new CreateEmptyMoveList();\par
+\tab\tab\tab\tab AddMove(u,b,x,y);\par
+\tab\tab\tab\tab PlacePiece(b,x,y,0);\par
+\tab\tab\tab\tab var i=fi(b,c^192);\par
+\tab\tab\tab\tab var j=0;\par
+\tab\tab\tab\tab var X=-1;\par
+\tab\tab\tab\tab while(!j&&++X!=i.length)\par
+\tab\tab\tab\tab\tab j=i[X].Y==y&&i[X].X==3;\par
+\tab\tab\tab\tab if(!j)\par
+\tab\tab\tab\tab\tab l.push(new P(x,y,2,y,5));\par
+\tab\tab\tab\tab un(u,b);\par
+\tab\tab\tab\}\par
+\}\par
+\par
+function kn(b,x,y,c,l)\{\par
+\tab for(var i=-2;i<3;++i)\par
+\tab\tab for(var j=-2;j<3;++j)\par
+\tab\tab\tab if(Math.abs(i)+Math.abs(j)==3)\{\par
+\tab\tab\tab\tab var X=x+i;\par
+\tab\tab\tab\tab var Y=y+j;\par
+\tab\tab\tab\tab if(IsInBounds(X,Y)&&!CheckSpcifiedBits(b,X,Y,c))\par
+\tab\tab\tab\tab\tab l.push(new P(x,y,X,Y,0));\par
+\tab\tab\tab\}\par
+\}\par
+\par
+function pa(b,x,y,c,l)\{\par
+\tab var Y=y+di(c);\par
+\tab var Z=y+di(c)*2;\par
+\tab if(!CheckPieceAnd32(b,x,y)&&IsEmpty(b,x,Y)&&IsEmpty(b,x,Z))\par
+\tab\tab l.push(new P(x,y,x,Z,2));\par
+\tab if(IsEmpty(b,x,Y))\{\par
+\tab\tab if(!Y||Y==7)\par
+\tab\tab\tab l.push(new P(x,y,x,Y,4));\par
+\tab\tab else \par
+\tab\tab\tab l.push(new P(x,y,x,Y,0));\par
+\tab\}\par
+\tab for(var i=-1;i<2;i+=2)\{\par
+\tab\tab var X=x+i;\par
+\tab\tab if(IsInBounds(X,Y))\{\par
+\tab\tab\tab if(CheckOppositeBits(b,X,Y,c))\{\par
+\tab\tab\tab\tab if(!Y||Y==7)\par
+\tab\tab\tab\tab\tab l.push(new P(x,y,X,Y,4));\par
+\tab\tab\tab\tab else \par
+\tab\tab\tab\tab\tab l.push(new P(x,y,X,Y,0));\par
+\tab\tab\tab\}else if(IsEmpty(b,X,Y)&&CheckPieceAnd16(b,X,Y-di(c)))\par
+\tab\tab\tab\tab l.push(new P(x,y,X,Y,1));\par
+\tab\tab\}\par
+\tab\}\par
+\}\par
+\par
+function DisplayBoard(b)\{\par
+\tab for(var y=0;y<8;++y)\par
+\tab\tab for(var x=0;x<8;++x)\{\par
+\tab\tab\tab var i="<img src=\\"";\par
+\tab\tab\tab if(F==1&&x==px&&y==py)\par
+\tab\tab\tab\tab i+="s";  // Use selecetd piece image\par
+\tab\tab\tab i+=(x+y&1)?"b":"w"; // Use the right background color\par
+\tab\tab\tab if(!IsEmpty(b,x,y))\par
+\tab\tab\tab\tab i+=(CheckSpcifiedBits(b,x,y,64)?"w":"b")+ // Get the piece color\par
+\tab\tab\tab\tab\tab (GetPieceType(b,x,y)&7);  // Get the piece type\par
+\tab\tab\tab document.getElementById(""+x+y).innerHTML=i+".png\\">";\par
+\tab\tab\}\par
+\}\par
+\par
+function ma(b,m)\{\par
+\tab u=new U();\par
+\tab for(var x=0;x<8;++x)\par
+\tab\tab for(var y=0;y<8;++y)\par
+\tab\tab\tab if(CheckPieceAnd16(b,x,y))\{\par
+\tab\tab\tab\tab AddMove(u,b,x,y);\par
+\tab\tab\tab\tab PlacePiece(b,x,y,GetPieceType(b,x,y)|GetColorBits(b,x,y)|CheckPieceAnd32(b,x,y));\par
+\tab\tab\tab\}\par
+\tab\tab\tab AddMove(u,b,m.X,m.Y);\par
+\tab\tab\tab if(m.f==4)\par
+\tab\tab\tab\tab PlacePiece(b,m.X,m.Y,37|GetColorBits(b,m.x,m.y));\par
+\tab\tab\tab else \par
+\tab\tab\tab\tab PlacePiece(b,m.X,m.Y,GetPieceType(b,m.x,m.y)|GetColorBits(b,m.x,m.y)|32|(m.f==2?16:0));\par
+\tab\tab\tab AddMove(u,b,m.x,m.y);\par
+\tab\tab\tab PlacePiece(b,m.x,m.y,0);\par
+\tab\tab\tab if(m.f==1)\{\par
+\tab\tab\tab\tab AddMove(u,b,m.X,m.Y-di(c));\par
+\tab\tab\tab\tab PlacePiece(b,m.X,m.Y-di(c),0);\par
+\tab\tab\tab\}else if(m.f==3)\{\par
+\tab\tab\tab\tab AddMove(u,b,5,m.y);\par
+\tab\tab\tab\tab AddMove(u,b,7,m.y);\par
+\tab\tab\tab\tab PlacePiece(PlacePiece(b,5,m.y,GetPieceType(b,7,m.y)|GetColorBits(b,7,m.y)|32),7,m.y,0);\par
+\tab\tab\tab\}else if(m.f==5)\{\par
+\tab\tab\tab\tab AddMove(u,b,3,m.y);\par
+\tab\tab\tab\tab AddMove(u,b,0,m.y);\par
+\tab\tab\tab\tab PlacePiece(PlacePiece(b,3,m.y,GetPieceType(b,0,m.y)|GetColorBits(b,0,m.y)|32),0,m.y,0);\par
+\tab\tab\tab\}\par
+\tab return u;\par
+\}\par
+\par
+function fi(b,c)\{\par
+\tab var l=[];\par
+\tab for(var x=0;x<8;++x)\par
+\tab\tab for(var y=0;y<8;++y)\par
+\tab\tab\tab if(CheckSpcifiedBits(b,x,y,c))\{\par
+\tab\tab\tab\tab var i=GetPieceType(b,x,y);\par
+\tab\tab\tab\tab if(i==1)\par
+\tab\tab\tab\tab\tab pa(b,x,y,c,l);\par
+\tab\tab\tab\tab else if(i==2)\par
+\tab\tab\tab\tab\tab kn(b,x,y,c,l);\par
+\tab\tab\tab\tab else if(i==3)\par
+\tab\tab\tab\tab\tab GetDiagMoves(b,x,y,c,l);\par
+\tab\tab\tab\tab else if(i==4)\par
+\tab\tab\tab\tab\tab GetHorzVertMoves(b,x,y,c,l);\par
+\tab\tab\tab\tab else if(i==5)\{\par
+\tab\tab\tab\tab\tab GetDiagMoves(b,x,y,c,l);\par
+\tab\tab\tab\tab\tab GetHorzVertMoves(b,x,y,c,l);\par
+\tab\tab\tab\tab\}else if(i==6)\par
+\tab\tab\tab\tab\tab ki(b,x,y,c,l);\par
+\tab\tab\tab\}\par
+\tab for(var i=0;i<l.length/3;++i)\{\par
+\tab\tab var j=Math.floor(Math.random()*l.length);\par
+\tab\tab var k=Math.floor(Math.random()*l.length);\par
+\tab\tab var x=l[j];l[j]=l[k];l[k]=x;\par
+\tab\}\par
+\tab return l;\par
+\}\par
+\par
+var Sp=[0,60,370,370,450,1000,5000];\par
+var Sb=[\par
+\tab [0,0,0,0,0,0,0,0,\par
+\tab  2,3,4,0,0,4,3,2,\par
+\tab  4,6,12,12,12,4,6,4,\par
+\tab  4,7,18,25,25,16,7,4,\par
+\tab  6,11,18,27,27,16,11,6,\par
+\tab  10,15,24,32,32,24,15,10,\par
+\tab  10,15,24,32,32,24,15,10,\par
+\tab  0,0,0,0,0,0,0,0],\par
+\tab [-7,-3,1,3,3,1,-3,-7,\par
+\tab  2,6,14,20,20,14,6,2,\par
+\tab  6,14,22,26,26,22,14,6,\par
+\tab  8,18,26,30,30,26,18,8,\par
+\tab  8,18,30,32,32,30,18,8,\par
+\tab  6,14,28,32,32,28,14,6,\par
+\tab  2,6,14,20,20,14,6,2,\par
+\tab  -7,-3,1,3,3,1,-3,-7],\par
+\tab [16,16,16,16,16,16,16,16,\par
+\tab  26,29,31,31,31,31,29,26,\par
+\tab  26,28,32,32,32,32,28,26,\par
+\tab  16,26,32,32,32,32,26,16,\par
+\tab  16,26,32,32,32,32,26,16,\par
+\tab  16,28,32,32,32,32,28,16,\par
+\tab  16,29,31,31,31,31,29,16,\par
+\tab  16,16,16,16,16,16,16,16],\par
+\tab [0,0,0,3,3,0,0,0,\par
+\tab  -2,0,0,0,0,0,0,-2,\par
+\tab  -2,0,0,0,0,0,0,-2,\par
+\tab  -2,0,0,0,0,0,0,-2,\par
+\tab  -2,0,0,0,0,0,0,-2,\par
+\tab  -2,0,0,0,0,0,0,-2,\par
+\tab  10,10,10,10,10,10,10,10,\par
+\tab  0,0,0,0,0,0,0,0],\par
+\tab [-2,-2,-2,0,0,-2,-2,-2,\par
+\tab  0,0,1,1,1,0,0,0,\par
+\tab  0,1,1,1,1,0,0,0,\par
+\tab  0,0,0,2,2,0,0,0,\par
+\tab  0,0,0,2,2,0,0,0,\par
+\tab  -2,-2,0,0,0,0,0,0,-2,\par
+\tab  -2,0,0,0,0,0,0,-2,\par
+\tab  -2,0,0,0,0,0,0],\par
+\tab [3,3,8,-12,-8,-12,10,5,\par
+\tab  0,0,-5,-5,-12,-12,-12,-12,\par
+\tab  -5,-5,-7,-15,-15,-15,-15,-15,\par
+\tab  -15,-7,-20,-20,-20,-20,-20,-20,\par
+\tab  -20,-20,-20,-20,-20,-20,-20,-20,\par
+\tab  -20,-20,-20,-20,-20,-20,-20,-20,\par
+\tab  -20,-20,-20,-20,-20,-20,-20,-20,\par
+\tab  -20,-20,-20,-20,-20,-20,-20,-20,\par
+\tab  -20,-20],\par
+\tab []\par
+];\par
+\par
+for(var x=0;x<8;++x)\par
+\tab for(var y=0;y<8;++y)\par
+\tab\tab Sb[6][x+y*8]=Sb[5][(7-x)+y*8];\par
+\par
+function GetTargetValue(b,c)\{\par
+\tab var s=0;\par
+\tab for(var x=0;x<8;++x)\par
+\tab\tab for(var y=0;y<8;++y)\{\par
+\tab\tab\tab var i=GetPieceType(b,x,y);\par
+\tab\tab\tab if(i)\par
+\tab\tab\tab\tab if(CheckSpcifiedBits(b,x,y,128)) // IsWhite\par
+\tab\tab\tab\tab\tab s+=Sb[i==6?6:i-1][(7-x)+y*8]+Sp[i];\par
+\tab\tab\tab\tab else \par
+\tab\tab\tab\tab\tab s-=Sb[i-1][x+(7-y)*8]+Sp[i];\par
+\tab\tab\}\par
+\tab return c==128?s:-s;\par
+\}\par
+\par
+function cpu()\{\par
+\tab if(F!=2)\par
+\tab\tab return;\par
+\tab var now = new Date();\par
+\tab var m=fi(b,c);\par
+\tab var bs=-99999;\par
+\tab var ws=bs;\par
+\tab var bm=0;\par
+\tab var C=c^192;\par
+\tab var kx=0;\par
+\tab var ky=0;\par
+\tab for(var i=0;i<m.length;++i)\{\par
+\tab\tab var u=ma(b,m[i]);\par
+\tab\tab if(GetPieceType(b,kx,ky)!=6||CheckSpcifiedBits(b,kx,ky,C))\{\par
+\tab\tab\tab kx=ky=0;\par
+\tab\tab\tab while(GetPieceType(b,kx,ky)!=6||CheckSpcifiedBits(b,kx,ky,C))\par
+\tab\tab\tab\tab if(++kx==8)\{\par
+\tab\tab\tab\tab\tab kx=0;++ky;\par
+\tab\tab\tab\tab\}\par
+\tab\tab\}\par
+\tab\tab var om=fi(b,C);\par
+\tab\tab var obs=-99999;\par
+\tab\tab var ows=99999;\par
+\tab\tab for(var j=0;j<om.length;++j)\{\par
+\tab\tab\tab if(kx==om[j].X&&ky==om[j].Y)\{\par
+\tab\tab\tab\tab obs=-99999;\par
+\tab\tab\tab\tab break;\par
+\tab\tab\tab\}\par
+\tab\tab\tab var U=ma(b,om[j]);\par
+\tab\tab\tab var r=GetTargetValue(b,c);\par
+\tab\tab\tab un(U,b);\par
+\tab\tab\tab obs=Math.max(obs,r);\par
+\tab\tab\tab ows=Math.min(ows,r);\par
+\tab\tab\tab if(r<ws)\par
+\tab\tab\tab\tab break;\par
+\tab\tab\}\par
+\tab\tab un(u,b);\par
+\tab\tab if(obs>bs&&ows>ws)\{\par
+\tab\tab\tab bs=obs;\par
+\tab\tab\tab ws=ows;\par
+\tab\tab\tab bm=m[i];\par
+\tab\tab\}\par
+\tab\}\par
+\tab ma(b,bm);\par
+\tab sm(bm);\par
+\tab nx();\par
+\tab st("Move took "+(new Date()-now)/1000+" secs");\par
+\}\par
+\par
+cpw=0;\par
+cpb=1;\par
+\par
+function MakeCPUWhite(e)\{\par
+\tab cpw=e.checked;\par
+\tab if(F<2&&cpw&&c==64)\{\par
+\tab\tab F=2;\par
+\tab\tab setTimeout("cpu()",100);\par
+\tab\}\par
+\}\par
+\par
+function MakeCPUBlack(e)\{\par
+\tab cpb=e.checked;\par
+\tab if(F<2&&cpb&&c==128)\{\par
+\tab\tab F=2;\par
+\tab\tab setTimeout("cpu()",100);\par
+\tab\}\par
+\}\par
+\par
+function SetupBoard()\{\par
+\tab b=[];\par
+\tab for(i=0;i<8;++i)\par
+\tab\tab PlacePiece(PlacePiece(b,i,6,65),i,1,129);\par
+\tab DisplayBoard(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(PlacePiece(b,0,0,132),\par
+\tab\tab 1,0,130),2,0,131),3,0,133),4,0,134),5,0,131),6,0,130),\par
+\tab\tab 7,0,132),0,7,68),1,7,66),2,7,67),3,7,69),4,7,70),5,7,67),6,7,66),7,7,68));\par
+\tab\tab c=64;\par
+\}\par
+\par
+function HandleClick(x,y)\{\par
+\tab if(F==0)\{\par
+\tab\tab if(CheckSpcifiedBits(b,x,y,c))\{\par
+\tab\tab\tab px=x;\par
+\tab\tab\tab py=y;\par
+\tab\tab\tab F=1;\par
+\tab\tab\tab DisplayBoard(b);\par
+\tab\tab\}\par
+\tab\}else if(F==1)\{if(x==px&&y==py)\{\par
+\tab\tab F=0;\par
+\tab\tab DisplayBoard(b);\par
+\tab\tab return;\par
+\tab\}\par
+\tab var m=fi(b,c);\par
+\tab for(var i=0;i<m.length;++i)\{\par
+\tab\tab if(m[i].x==px&&m[i].y==py&&m[i].X==x&&m[i].Y==y&\u8805?(b,x,y)!=6)\{\par
+\tab\tab\tab var u=ma(b,m[i]);\par
+\tab\tab\tab var o=fi(b,c^192);\par
+\tab\tab\tab for(var j=0;j<o.length;++j)\par
+\tab\tab\tab\tab if(GetPieceType(b,o[j].X,o[j].Y)==6&&CheckSpcifiedBits(b,o[j].X,o[j].Y,c))\{\par
+\tab\tab\tab\tab\tab un(u,b);\par
+\tab\tab\tab\tab\tab st("Invalid move");\par
+\tab\tab\tab\tab\tab return;\par
+\tab\tab\tab\tab\}\par
+\tab\tab\tab sm(m[i]);\par
+\tab\tab\tab nx();\par
+\tab\tab\tab return;\par
+\tab\tab\}\par
+\tab\}\par
+\tab st("Invalid move");\par
+\tab\}\par
+\}\par
+\par
+function nx()\{\par
+\tab c^=192;\par
+\tab F=0;\par
+\tab DisplayBoard(b);\par
+\tab for(var x=0;x<8;++x)\par
+\tab\tab for(var y=0;y<8;++y)\par
+\tab\tab\tab if(GetPieceType(b,x,y)==6&&CheckSpcifiedBits(b,x,y,c))\{\par
+\tab\tab\tab\tab var kx=x;\par
+\tab\tab\tab\tab var ky=y;\par
+\tab\tab\tab\}\par
+\tab var m=fi(b,c^192);\par
+\tab var ic=0;\par
+\tab for(var i=0;i<m.length;++i)\par
+\tab\tab if(m[i].X==kx&&m[i].Y==ky)\par
+\tab\tab\tab ic=1;\par
+\tab\tab\tab var m=fi(b,c);\par
+\tab\tab\tab var cm=1;\par
+\tab\tab\tab for(var i=0;i<m.length;++i)\{\par
+\tab\tab\tab\tab var u=ma(b,m[i]);\par
+\tab\tab\tab\tab for(var x=0;x<8;++x)\par
+\tab\tab\tab\tab\tab for(var y=0;y<8;++y)\par
+\tab\tab\tab\tab\tab\tab if(GetPieceType(b,x,y)==6&&CheckSpcifiedBits(b,x,y,c))\{\par
+\tab\tab\tab\tab\tab\tab\tab var kx=x;\par
+\tab\tab\tab\tab\tab\tab\tab var ky=y;\par
+\tab\tab\tab\tab\tab\tab\}\par
+\tab\tab\tab\tab var om=fi(b,c^192);\par
+\tab\tab\tab\tab un(u,b);\par
+\tab\tab\tab\tab var hm=0;\par
+\tab\tab\tab\tab for(var j=0;j<om.length;++j)\par
+\tab\tab\tab\tab\tab if(om[j].X==kx&&om[j].Y==ky)\par
+\tab\tab\tab\tab\tab\tab hm=1;\par
+\tab\tab\tab\tab cm&=hm;\par
+\tab\tab\tab\}\par
+\tab if(cm)\{\par
+\tab\tab alert((ic?"Check":"Stale")+"mate!");\par
+\tab\tab F=3;\par
+\tab\tab return;\par
+\tab\}\par
+\tab if((cpw&&c==64)||(cpb&&c==128))\{\par
+\tab\tab F=2;\par
+\tab\tab setTimeout("cpu()",500);\par
+\tab\}\par
+\}\par
+\par
+//-->\par
+\par
+</script>\par
+\par
+<!-- news 2 -->\par
+\par
+<table class="frame" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td class="tl"> </td><td class="t"> </td><td class="tr"> </td></tr><tr><td class="l"> </td><td class="box">\par
+\par
+\par
+\par
+<input type="checkbox" onClick="MakeCPUWhite(this)">CPU White</input><br>\par
+\par
+<input type="checkbox" checked="true" onChange="MakeCPUBlack(this)">CPU Black</input>\par
+\par
+\par
+\par
+<center><table><tr><td><img src="t.png"><br><script type="text/javascript"><!--\par
+\par
+for(var i=0;i<8;++i)\{\par
+\tab document.write("<img src=\\"l.png\\">");\par
+\tab for(var j=0;j<8;++j)\par
+\tab\tab document.write("<span onclick=\\"HandleClick("+j+","+i+")\\" id=\\""+j+i+"\\"><img></span>");\par
+\tab document.write("<img src=\\"r.png\\"><br>");\par
+\}\par
+\par
+//-->\par
+\par
+</script><img src="u.png"><br></td></tr></table></center>\par
+\par
+\par
+\par
+<table><tr>\par
+\par
+<td>\par
+\par
+Promote to <select class="Chess" name="Q">\par
+\par
+<option value="5">Queen</option>\par
+\par
+<option value="2">Knight</option>\par
+\par
+<option value="3">Bishop</option>\par
+\par
+<option value="4">Rook</option>\par
+\par
+</select>\par
+\par
+</td><td>\par
+\par
+<div id="i"></div>\par
+\par
+</td></tr>\par
+\par
+</table>\par
+\par
+\par
+\par
+</td><td class="r"> </td></tr><tr><td class="bl"> </td><td class="b"> </td><td class="br"> </td></tr></table>\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+<!-- end news 2 -->\par
+\par
+<!-- end news pane -->\par
+\par
+\par
+\par
+<!-- news 3 -->\par
+\par
+<table class="frame" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td class="tl"> </td><td class="t"> </td><td class="tr"> </td></tr><tr><td class="l"> </td><td class="box">\par
+\par
+<h2>Game Log</h2>\par
+\par
+<center><table border="0" cellpadding="0" cellspacing="0" width="90%">\par
+\par
+<tr><td width="33%" valign="top"><div id="m0"> </div></td><td width="33%" valign="top"><div id="m1"> </div></td><td width="33%" valign="top"><div id="m2"> </div></td></tr><tr><td width="33%" valign="top"><div id="m3"> </div></td><td width="33%" valign="top"><div id="m4"> </div></td><td width="33%" valign="top"><div id="m5"> </div></td></tr></table></center>\par
+\par
+</td><td class="r"> </td></tr><tr><td class="bl"> </td><td class="b"> </td><td class="br"> </td></tr></table>\par
+\par
+<!-- end news 3 -->\par
+\par
+}
+ 
