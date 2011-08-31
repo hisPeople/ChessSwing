@@ -3,8 +3,8 @@ package json;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Location;
-import model.Move;
+import edu.neumont.learningChess.api.Location;
+import edu.neumont.learningChess.api.Move;
 
 public class JSONFactory 
 {

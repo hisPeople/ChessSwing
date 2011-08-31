@@ -1,6 +1,7 @@
 package model;
 import peices.ChessPiece;
 
+import edu.neumont.learningChess.api.Location;
 
 public class BoardState {
 

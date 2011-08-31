@@ -1,6 +1,7 @@
 package model;
 
-
+import edu.neumont.learningChess.api.Move;
+import edu.neumont.learningChess.api.Location;
 
 
 public interface IDisplay {

@@ -4,10 +4,9 @@ import java.util.Enumeration;
 
 
 import model.ChessBoard;
-import model.Location;
 import model.MoveEnumeration;
 
-
+import edu.neumont.learningChess.api.Location;
 
 public class Queen extends ChessPiece {
 

@@ -8,6 +8,8 @@ import java.net.URL;
 import json.JSONFactory;
 import json.JSONState;
 
+import edu.neumont.learningChess.api.Move;
+
 public class TeamServer extends Team {
 
 	public TeamServer(Color color, ChessBoard board, ICheckChecker checkChecker) {

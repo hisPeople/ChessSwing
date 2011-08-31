@@ -3,6 +3,8 @@ import java.net.URL;
 
 import javax.swing.*;
 
+import edu.neumont.learningChess.api.Location;
+
 
 
 @SuppressWarnings("serial")

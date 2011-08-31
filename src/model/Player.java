@@ -1,5 +1,6 @@
 package model;
 
+import edu.neumont.learningChess.api.Move;
 
 public abstract class Player {
 	

@@ -1,5 +1,6 @@
 package model;
 
+import edu.neumont.learningChess.api.Location;
 
 public class Adjustment {
 	private int row;

@@ -6,6 +6,9 @@ import java.util.Iterator;
 
 import javax.swing.*;
 
+import edu.neumont.learningChess.api.Move;
+import edu.neumont.learningChess.api.Location;
+
 
 @SuppressWarnings("serial")
 public class BoardDisplay extends JFrame implements MouseListener, MouseMotionListener, IDisplay {

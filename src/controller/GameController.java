@@ -1,7 +1,7 @@
 package controller;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+//import java.io.BufferedReader;
+//import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import json.JSONFactory;
-import json.JSONState;
+//import json.JSONState;
 
 import model.BoardDisplayPiece;
 import model.BoardState;
@@ -19,12 +19,11 @@ import model.ChessBoard;
 import model.ICheckChecker;
 import model.IDisplay;
 import model.IllegalMoveException;
-import model.Location;
-import model.Move;
+import edu.neumont.learningChess.api.Move;
 import model.Team;
 import model.TeamLocal;
 import model.TeamServer;
-import model.Team.Color;
+//import model.Team.Color;
 import peices.Bishop;
 import peices.ChessPiece;
 import peices.King;
@@ -32,6 +31,8 @@ import peices.Knight;
 import peices.Pawn;
 import peices.Queen;
 import peices.Rook;
+
+import edu.neumont.learningChess.api.Location;
 
 public class GameController implements ChessBoard.IListener, ICheckChecker {
 
@@ -85,7 +86,7 @@ public class GameController implements ChessBoard.IListener, ICheckChecker {
 	}
 
 	public void play() {
-		while (!(isCheckmate || isStalemate)) {
+		if (!(isCheckmate || isStalemate)) {
 			// boolean isOk = currentPlayer.handleMove(move);
 			Move move = currentPlayer.getMove();
 			boolean isOk = currentPlayer.isLegalMove(move);
@@ -117,7 +118,8 @@ public class GameController implements ChessBoard.IListener, ICheckChecker {
 				boardDisplay.notifyStalemate();
 			}
 		}
-		sendHistory();
+		else
+			sendHistory();
 	}
 	
 	

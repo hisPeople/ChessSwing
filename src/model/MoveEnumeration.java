@@ -6,6 +6,8 @@ import java.util.Iterator;
 
 import peices.ChessPiece;
 
+import edu.neumont.learningChess.api.Location;
+
 
 public class MoveEnumeration implements Enumeration<Location> {
 

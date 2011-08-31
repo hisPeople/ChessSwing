@@ -1,6 +1,6 @@
 package json;
 
-import model.Location;
+import edu.neumont.learningChess.api.Location;
 
 
 public class PieceState 

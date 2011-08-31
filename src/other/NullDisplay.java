@@ -1,6 +1,6 @@
 package other;
 import model.IDisplay;
-import model.Location;
+import edu.neumont.learningChess.api.Location;
 
 
 public class NullDisplay implements IDisplay {

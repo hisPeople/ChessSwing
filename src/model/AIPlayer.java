@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+import edu.neumont.learningChess.api.Location;
+import edu.neumont.learningChess.api.Move;
+
 
 
 public class AIPlayer extends Player {

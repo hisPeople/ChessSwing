@@ -6,9 +6,9 @@ import java.util.Iterator;
 
 import model.Adjustment;
 import model.ChessBoard;
-import model.Location;
 import model.MoveEnumeration;
 
+import edu.neumont.learningChess.api.Location;
 
 public class King extends ChessPiece {
 

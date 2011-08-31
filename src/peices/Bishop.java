@@ -5,7 +5,7 @@ import java.util.Enumeration;
 
 
 import model.ChessBoard;
-import model.Location;
+import edu.neumont.learningChess.api.Location;
 import model.MoveEnumeration;
 
 

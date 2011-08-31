@@ -11,6 +11,8 @@ import peices.Pawn;
 import peices.Queen;
 import peices.Rook;
 
+import edu.neumont.learningChess.api.Location;
+
 public class GameState {
 
 	private BoardState boardState;

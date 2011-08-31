@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 
 import model.ChessCommandHandler;
-import model.Location;
+import edu.neumont.learningChess.api.Location;
 
 public class TextCommandProcessor {
 

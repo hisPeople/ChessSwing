@@ -5,6 +5,9 @@ import java.util.Stack;
 
 import peices.ChessPiece;
 
+import edu.neumont.learningChess.api.Location;
+import edu.neumont.learningChess.api.Move;
+
 
 public class ChessBoard {
 

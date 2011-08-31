@@ -5,8 +5,8 @@ import java.util.Enumeration;
 import java.util.Iterator;
 
 import model.ChessBoard;
-import model.Location;
 
+import edu.neumont.learningChess.api.Location;
 
 public class Pawn extends ChessPiece {
 

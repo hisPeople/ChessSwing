@@ -2,7 +2,7 @@ package json;
 
 import java.util.ArrayList;
 
-import model.Move;
+import edu.neumont.learningChess.api.Move;
 
 public class MoveHistory 
 {

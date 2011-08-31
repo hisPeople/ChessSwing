@@ -2,7 +2,7 @@ package json;
 
 import model.ChessBoard;
 import model.GameState;
-import model.Location;
+import edu.neumont.learningChess.api.Location;
 import model.Team;
 import model.TeamLocal;
 import model.TeamServer;

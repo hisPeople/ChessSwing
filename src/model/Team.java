@@ -7,6 +7,9 @@ import java.util.Iterator;
 import peices.ChessPiece;
 import peices.King;
 
+import edu.neumont.learningChess.api.Move;
+import edu.neumont.learningChess.api.Location;
+
 
 public abstract class Team implements IDisplay.IMoveHandler {
 
