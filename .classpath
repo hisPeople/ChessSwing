@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="json.jar"/>
 	<classpathentry kind="lib" path="comm.jar"/>
-	<classpathentry kind="lib" path="ChessImprovedModel.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Chess Improved"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
