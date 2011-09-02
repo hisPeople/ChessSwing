@@ -55,7 +55,7 @@ public class MoveHandler implements IDisplay.IMoveHandler {
 	
 	@Override
 	public boolean handleMove(Move move){
-		MoveDescription moveDescription = chessGame.getMoveDescription(move, pawnPromotion);
+		MoveDescription moveDescription = chessGame.getMoveDescription(move, pawnPromotion, true);
 		
 		if(moveDescription != null){
 			chessGame.makeMove(moveDescription);
