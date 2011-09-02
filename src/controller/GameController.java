@@ -10,27 +10,27 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-import json.JSONFactory;
+//import json.JSONFactory;
 //import json.JSONState;
 
-import model.BoardDisplayPiece;
 import model.BoardState;
 import model.ChessBoard;
 import model.ICheckChecker;
-import model.IDisplay;
 import model.IllegalMoveException;
 import edu.neumont.learningChess.api.Move;
 import model.Team;
 import model.TeamLocal;
 import model.TeamServer;
 //import model.Team.Color;
-import peices.Bishop;
-import peices.ChessPiece;
-import peices.King;
-import peices.Knight;
-import peices.Pawn;
-import peices.Queen;
-import peices.Rook;
+import edu.neumont.learningChess.model.Bishop;
+import edu.neumont.learningChess.model.ChessPiece;
+import edu.neumont.learningChess.model.King;
+import edu.neumont.learningChess.model.Knight;
+import edu.neumont.learningChess.model.Pawn;
+import edu.neumont.learningChess.model.Queen;
+import edu.neumont.learningChess.model.Rook;
+import edu.neumont.learningChess.swingClient.view.BoardDisplayPiece;
+import edu.neumont.learningChess.swingClient.view.IDisplay;
 
 import edu.neumont.learningChess.api.Location;
 
